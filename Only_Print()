@@ -1,0 +1,8 @@
+Sub Only_Print()
+    With ActiveSheet
+        .PageSetup.RightHeader = "ORIGINAL"
+        .PrintOut
+        .PageSetup.RightHeader = "DUPLICATE"
+        .PrintOut
+    End With
+End Sub
