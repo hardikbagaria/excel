@@ -16,7 +16,7 @@ def send_whatsapp_message(file_path):
     service = Service()  # Assuming ChromeDriver is in the system PATH
 
     driver = webdriver.Chrome(service=service, options=chrome_options)
-    driver.get('https://web.whatsapp.com/send?phone=+919022180909')  # Replace with the recipient's phone number
+    driver.get('https://web.whatsapp.com/send?phone=+91')  # Replace with the recipient's phone number
 
     wait = WebDriverWait(driver, 120)
 
