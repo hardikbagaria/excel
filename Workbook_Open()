@@ -1,0 +1,33 @@
+Private Sub Workbook_Open()
+    Dim folderPath As String
+    Dim fileName As String
+    Dim currentInvoiceNumber As Long
+    Dim maxInvoiceNumber As Long
+    Dim regex As Object
+    Set regex = CreateObject("VBScript.RegExp")
+    folderPath = "C:\Users\GAMING DESKTOP\Desktop\bills\"
+    If Dir(folderPath, vbDirectory) = "" Then
+        MsgBox "Folder not found!", vbExclamation
+        Exit Sub
+    End If
+    regex.Global = True
+    regex.IgnoreCase = True
+    regex.Pattern = "(\d+)"
+    fileName = Dir(folderPath & "*")
+    maxInvoiceNumber = 0
+    Do While fileName <> ""
+        Dim matches As Object
+        Set matches = regex.Execute(fileName)
+        If matches.Count > 0 Then
+            currentInvoiceNumber = CLng(matches(matches.Count - 1))
+            If currentInvoiceNumber > maxInvoiceNumber Then
+                maxInvoiceNumber = currentInvoiceNumber
+            End If
+        End If
+        
+        fileName = Dir
+    Loop
+    maxInvoiceNumber = maxInvoiceNumber + 1
+    Sheets("Sheet1").Range("G2").Value = maxInvoiceNumber
+End Sub
+
