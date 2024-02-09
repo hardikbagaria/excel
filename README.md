@@ -14,7 +14,7 @@ here are some Visual Basics Marcos code I wrote with 7 modules inside it to pefo
    starting with the bill number) it compared it ang gives the highest value, now we add 1 to it and then use 
    Sheets("Sheet1").Range("G2").Value = maxInvoiceNumber to set it automatically when the Workbook is loaded
 6: The most intresting of all is A Module to Add the Specific bill to Ledger. It is done in 2 Ways a common file for all of the nammed ledger.xlsx
-   and And the second method is it adds it seperatly to dedicated <party name> file, it uses an if else statment to check weather a file of that name
+   and And the second method is it adds it seperatly to dedicated party name file, it uses an if else statment to check weather a file of that name
    exists or not if not it creats one and then adds the data retriven using ThisWorkbook.Sheets("Sheet1").Range(" ").Value to the seprate excel workbook
    (its still a bit not organized cause it appends the name of the party in the second case also which is not required) At then end it gived a MsgBox that the data is added Successfully
 7: i have used =IFERROR(VLOOKUP(C7,Sheet2!A:I,2,0),"") IFERROR is used if there is no data for the specific party name (i.e. Address Line 3 is not there for some Parties)
