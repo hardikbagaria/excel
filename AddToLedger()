@@ -1,0 +1,69 @@
+Sub AddToLedger()
+    Dim ledgerWB As Workbook
+    Dim ledgerWS As Worksheet
+    Dim partyName As String
+    Dim totalAmount As Double
+    Dim dateValue As Date
+    Dim billNumber As String
+    Dim lastRow As Long
+    Dim totalLtr As Double
+    Dim totalTax As Double
+    Dim total As Double
+    Dim partyWB As Workbook
+    
+    ' Open ledger workbook
+    Set ledgerWB = Workbooks.Open("C:\Users\GAMING DESKTOP\Desktop\bills\Ledger.xlsx") ' Change path as per your ledger file location
+    Set ledgerWS = ledgerWB.Sheets("Sheet1") ' Change sheet name if needed
+
+    ' Prompt user for input
+    partyName = ThisWorkbook.Sheets("Sheet1").Range("C7").Value
+    totalAmount = ThisWorkbook.Sheets("Sheet1").Range("J29").Value
+    dateValue = ThisWorkbook.Sheets("Sheet1").Range("I2").Value
+    billNumber = ThisWorkbook.Sheets("Sheet1").Range("G2").Value
+    totalLtr = ThisWorkbook.Sheets("Sheet1").Range("G34").Value
+    totalTax = ThisWorkbook.Sheets("Sheet1").Range("J39").Value
+    total = ThisWorkbook.Sheets("Sheet1").Range("J34").Value
+    lastRow = ledgerWS.Cells(ledgerWS.Rows.Count, "A").End(xlUp).Row
+    
+    ' Check if party file exists
+    If Dir("C:\Users\GAMING DESKTOP\Desktop\bills\parties\" & partyName & ".xlsm") <> "" Then
+        ' File exists, open it
+        Set partyWB = Workbooks.Open("C:\Users\GAMING DESKTOP\Desktop\bills\parties\" & partyName & ".xlsm")
+    Else
+        ' File doesn't exist, create it
+        Set partyWB = Workbooks.Add
+        partyWB.SaveAs fileName:="C:\Users\GAMING DESKTOP\Desktop\bills\parties\" & partyName & ".xlsm", FileFormat:=52 ' FileFormat 52 represents xlOpenXMLWorkbookMacroEnabled
+    End If
+    
+    ' Add data to party workbook
+    With partyWB.Sheets(1) ' Change this to the appropriate sheet index or name
+        lastRow = .Cells(.Rows.Count, "A").End(xlUp).Row
+        .Cells(lastRow + 1, 1).Value = dateValue
+        .Cells(lastRow + 1, 2).Value = partyName
+        .Cells(lastRow + 1, 3).Value = billNumber
+        .Cells(lastRow + 1, 4).Value = totalLtr
+        .Cells(lastRow + 1, 5).Value = totalAmount
+        .Cells(lastRow + 1, 6).Value = totalTax
+        .Cells(lastRow + 1, 7).Value = total
+    End With
+
+    ' Save and close party workbook
+    partyWB.Close SaveChanges:=True
+
+    ' Add data to ledger workbook
+    With ledgerWS
+        .Cells(lastRow + 1, 1).Value = dateValue
+        .Cells(lastRow + 1, 2).Value = partyName
+        .Cells(lastRow + 1, 3).Value = billNumber
+        .Cells(lastRow + 1, 4).Value = totalLtr
+        .Cells(lastRow + 1, 5).Value = totalAmount
+        .Cells(lastRow + 1, 6).Value = totalTax
+        .Cells(lastRow + 1, 7).Value = total
+    End With
+
+    ' Save and close ledger workbook
+    ledgerWB.Close SaveChanges:=True
+
+    MsgBox "Entry added to ledger successfully!", vbInformation
+End Sub
+
