@@ -1,0 +1,19 @@
+Sub Only_Send()
+    Dim fileName As String
+    Dim FilePath As String
+    Dim BillNo As Variant
+    Dim partyName As String
+    Dim PdffileName As String
+    Dim PythonExePath As String
+    Dim PythonScriptPath As String
+    ActiveSheet.PageSetup.RightHeader = "ORIGINAL"
+    ' Get values from cells
+    BillNo = ThisWorkbook.Sheets("Sheet1").Range("G2").Value
+    partyName = ThisWorkbook.Sheets("Sheet1").Range("C7").Value
+    fileName = BillNo & " " & partyName
+    FilePath = ThisWorkbook.Path & "\" & fileName & ".pdf"
+    ActiveSheet.ExportAsFixedFormat Type:=xlTypePDF, fileName:=FilePath, Quality:=xlQualityStandard, IncludeDocProperties:=True, IgnorePrintAreas:=False, OpenAfterPublish:=True
+    PythonExePath = "C:\Users\GAMING DESKTOP\AppData\Local\Programs\Python\Python312\pythonw.exe"
+    PythonScriptPath = "C:\Users\GAMING DESKTOP\Desktop\bills\send_whatsapp.py"
+    Shell """" & PythonExePath & """ """ & PythonScriptPath & """ """ & FilePath & """", vbNormalFocus
+End Sub
